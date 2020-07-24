@@ -7,6 +7,7 @@ import moment from 'moment';
 import localization from 'moment/locale/fr';
 import numeral from 'numeral';
 import 'numeral/locales/fr';
+import { startSetArticles } from './actions/articles';
 import { login, logout } from './actions/auth';
 import 'normalize.css/normalize.css';
 import './styles/styles.scss';
@@ -34,16 +35,19 @@ const renderApp = () => {
 
 ReactDOM.render(<LoadingPage />, document.getElementById('app'));
 
-firebase.auth().onAuthStateChanged((user) => {
-    if (user) {
-        store.dispatch(login(user.uid));
-        renderApp();
-        if (history.location.pathname === '/') {
-            history.push('/dashboard');
-        }
-    } else {
-        store.dispatch(logout());
-        renderApp();
-        history.push('/');
-    }
-});
+// firebase.auth().onAuthStateChanged((user) => {
+//     if (user) {
+        //store.dispatch(login("HITx2EzxgpgeuO9O3ws5pUEE2KF2"));
+        store.dispatch(startSetArticles()).then(() => {
+            renderApp();
+        });
+    //     if (history.location.pathname === '/') {
+    //         history.push('/');
+    //     }
+    // } else {
+    //     store.dispatch(logout());
+    //     renderApp();
+    //     history.push('/');
+    // }
+//     }
+// });
